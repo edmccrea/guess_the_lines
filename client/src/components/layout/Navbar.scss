@@ -1,0 +1,35 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+
+  .logo {
+    padding-left: 20px;
+    display: flex;
+    li {
+      list-style: none;
+      padding-left: 20px;
+    }
+  }
+
+  ul {
+    display: flex;
+    padding-right: 20px;
+
+    a {
+      padding: 5px 15px;
+      transition: all ease-in-out 200ms;
+
+      &:hover {
+        color: var(--light-color-hover);
+      }
+    }
+    .login-btn {
+      background-color: var(--primary-color);
+      color: var(--dark-color);
+      border-radius: 0.2rem;
+      opacity: 0.9;
+    }
+  }
+}

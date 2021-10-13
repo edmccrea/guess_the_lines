@@ -1,0 +1,151 @@
+.dashnav-container {
+  height: 100%;
+  width: 78px;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 6px 14px;
+  transition: all 0.5s ease;
+
+  .dashnav-logo-content {
+    .dashnav-logo {
+      display: flex;
+      height: 50px;
+      width: 100%;
+      align-items: center;
+      opacity: 0;
+      i {
+        font-size: 28px;
+        margin-right: 5px;
+      }
+      .logo-name {
+        font-size: 20px;
+        font-weight: 400;
+      }
+    }
+  }
+  .dash-btn {
+    position: absolute;
+    left: 50%;
+    top: 6px;
+    font-size: 20px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    line-height: 50px;
+    transform: translateX(-50%);
+  }
+  .dashnav-nav {
+    margin-top: 20px;
+    li {
+      position: relative;
+      height: 50px;
+      width: 100%;
+      margin: 0 12px;
+      line-height: 50px;
+      &:hover {
+        .tooltip {
+          top: 50%;
+          transition: all 0.5s ease;
+          opacity: 1;
+        }
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        transition: all 0.4s ease;
+        border-radius: 12px;
+        font-weight: 400;
+        white-space: nowrap;
+        height: 100%;
+        width: 50px;
+        &:hover {
+          background-color: var(--primary-color);
+          color: var(--dark-color);
+        }
+        i {
+          height: 50px;
+          min-width: 50px;
+          border-radius: 12px;
+          line-height: 50px;
+          text-align: center;
+          font-size: 20px;
+        }
+        .link-name {
+          display: none;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .profile-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    .profile-details {
+      position: relative;
+      padding: 10px 6px;
+      height: 60px;
+      background: var(--dark-color-light);
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      p {
+        font-weight: 400;
+        font-size: 15px;
+      }
+    }
+    .dash-logout {
+      position: absolute;
+      left: 50%;
+      bottom: 35px;
+      transform: translateX(-50%);
+      min-width: 50px;
+      line-height: 50px;
+      font-size: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+  }
+}
+
+.active {
+  width: 240px;
+  .dashnav-logo-content {
+    .dashnav-logo {
+      opacity: 1;
+      pointer-events: none;
+    }
+  }
+
+  .dash-btn {
+    left: 90%;
+  }
+
+  .dashnav-nav {
+    li {
+      margin: 0 5px;
+      a {
+        width: 100%;
+        .link-name {
+          display: block;
+          pointer-events: auto;
+        }
+      }
+    }
+  }
+
+  .profile-content {
+    .profile-details {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .dash-logout {
+      left: 88%;
+    }
+  }
+}
