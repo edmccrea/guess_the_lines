@@ -1,0 +1,46 @@
+.users-dash {
+  padding: 10px 0 0 10px;
+  width: 100vw;
+  h1 {
+    font-size: 2rem;
+  }
+
+  .users-list {
+    width: 80%;
+    .user-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      border-bottom: 1px solid var(--primary-color);
+      margin: 0.5rem 0;
+      .user-col {
+        width: 35%;
+        .col-info {
+          margin: 5px 0;
+          padding: 3px 8px;
+          display: inline-block;
+        }
+        .user-btn {
+          text-align: right;
+          border-radius: 0.2rem;
+          margin-right: auto;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        .picks-btn {
+          background: var(--primary-color);
+        }
+        .edit-btn {
+          background: var(--success-color);
+        }
+        .delete-btn {
+          background: var(--danger-color);
+        }
+      }
+      .btn-col {
+        width: 10%;
+      }
+    }
+  }
+}

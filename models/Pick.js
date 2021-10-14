@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const PicksSchema = new Schema({
+const PickSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'User',
   },
   week: {
     type: Number,
@@ -21,4 +21,4 @@ const PicksSchema = new Schema({
   ],
 });
 
-module.exports = Picks = mongoose.model('picks', PicksSchema);
+module.exports = Pick = mongoose.model('Pick', PickSchema);

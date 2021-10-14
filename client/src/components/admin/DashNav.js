@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 import './DashNav.scss';
 
-const DashNav = ({ auth: { user }, activeNav, setActiveNav }) => {
+const DashNav = ({ auth: { user, logout }, activeNav, setActiveNav }) => {
   const toggleDashNav = () => {
     if (!activeNav) {
       setActiveNav(true);
@@ -27,7 +28,7 @@ const DashNav = ({ auth: { user }, activeNav, setActiveNav }) => {
       <ul className='dashnav-nav'>
         <li>
           <Link to='/dashboard'>
-            <i class='bx bx-grid-alt'></i>
+            <i className='bx bx-grid-alt'></i>
             <span className='link-name'>Dashboard</span>
           </Link>
         </li>
@@ -48,13 +49,16 @@ const DashNav = ({ auth: { user }, activeNav, setActiveNav }) => {
         <div className='profile-details'>
           <p>{user && user.name}</p>
         </div>
-        <i className='bx bx-log-out dash-logout'></i>
+        <Link to='/login' onClick={logout}>
+          <i className='bx bx-log-out dash-logout'></i>
+        </Link>
       </div>
     </div>
   );
 };
 
 DashNav.propTypes = {
+  logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
@@ -62,4 +66,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(DashNav);
+export default connect(mapStateToProps, { logout })(DashNav);

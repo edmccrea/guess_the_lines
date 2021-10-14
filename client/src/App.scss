@@ -93,3 +93,13 @@ input {
   background-color: var(--dark-color);
   color: var(--light-color);
 }
+
+.loading-container {
+  height: calc(100vh - 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    font-size: 2rem;
+  }
+}

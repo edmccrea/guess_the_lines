@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import './App.scss';
@@ -8,8 +8,6 @@ import Landing from './components/game/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/admin/Dashboard';
-
-import AdminRoute from './components/routing/AdminRoute';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -28,8 +26,8 @@ function App() {
 
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState(false);
-  const [guess, setGuess] = useState(false);
-  const [score, setScore] = useState(false);
+  // const [guess, setGuess] = useState(false);
+  // const [score, setScore] = useState(false);
 
   useEffect(() => {
     const getGames = async () => {
@@ -45,16 +43,21 @@ function App() {
       <Router>
         <div className='container'>
           <Route exact path='/dashboard' render={() => <Dashboard />} />
-          <Fragment>
+
+          <div>
             <Navbar />
             {!loading ? (
               <Route exact path='/' render={() => <Landing games={games} />} />
             ) : (
-              <p>Loading...</p>
+              <div className='loading-container'>
+                <p>Loading...</p>
+              </div>
             )}
-            <Route exact path='/register' render={() => <Register />} />
-            <Route exact path='/login' render={() => <Login />} />
-          </Fragment>
+            <Switch>
+              <Route exact path='/register' render={() => <Register />} />
+              <Route exact path='/login' render={() => <Login />} />
+            </Switch>
+          </div>
         </div>
       </Router>
     </Provider>

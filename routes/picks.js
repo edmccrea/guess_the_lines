@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 
-const Picks = require('../models/Picks');
+const User = require('../models/User');
+const Pick = require('../models/Pick');
 const BillsPicks = require('../models/BillsPicks');
 const SalsPicks = require('../models/SalsPicks');
 
@@ -12,15 +13,40 @@ const SalsPicks = require('../models/SalsPicks');
 
 router.post('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id)
+      .select('-password')
+      .populate('picks', 'week');
 
-    const picks = new Picks({
+    const pick = new Pick({
       user,
       week: req.body.week,
       picks: req.body.picks,
     });
-    await picks.save();
-    res.json(picks);
+
+    let duplicate = false;
+    user.picks.map((p) => {
+      if (pick.week === p.week) {
+        res.json({ msg: 'User has already picked this week' });
+        duplicate = true;
+      }
+    });
+
+    if (!duplicate) {
+      await pick
+        .save()
+        .then((result) => {
+          User.findOne({ email: user.email }, (err, user) => {
+            if (user) {
+              user.picks.push(pick);
+              user.save();
+              res.json({ msg: 'Picks added!' });
+            }
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({ error });
+        });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
@@ -103,6 +129,25 @@ router.get('/sal/:week', async (req, res) => {
       res.json(result);
     }
   });
+});
+
+//@route  GET /picks
+//@desc   Get All Picks
+//@access Private
+
+router.get('/', auth, async (req, res) => {
+  const pick = await Pick.find({}).populate('user', 'name');
+  res.json(pick);
+});
+
+//@route  GET /picks/:id
+//@desc   Get Users Picks by Id
+//@access Private
+
+router.get('/:id', auth, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  const picks = await BillsPicks.find({}).populate('user');
+  res.json(picks);
 });
 
 module.exports = router;

@@ -4,8 +4,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
+const auth = require('../middleware/auth');
 
 const User = require('../models/User');
+const Pick = require('../models/Pick');
 
 //@route  POST /users/register
 //@desc   Register user
@@ -75,7 +77,9 @@ router.post(
 //@access Public
 
 router.get('/', async (req, res) => {
-  const users = await User.find({}).select('-password');
+  const users = await User.find({})
+    .select('-password')
+    .populate({ path: 'picks', model: 'Pick' });
   res.json(users);
 });
 
@@ -87,7 +91,7 @@ router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
       .select('-password')
-      .populate('picks');
+      .populate('picks', 'picks week');
     res.json(user);
 
     if (!user) {
@@ -99,4 +103,25 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//@route  DELETE /users/:id
+//@desc   Delete User by Id
+//@access Private
+
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    await user.remove();
+    res.json({ msg: 'User removed' });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    res.status(500).send('Server error');
+  }
+});
 module.exports = router;
