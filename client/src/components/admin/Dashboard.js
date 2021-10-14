@@ -5,7 +5,8 @@ import './Dashboard.scss';
 
 import DashNav from './DashNav';
 import DashHome from './DashHome';
-import Users from './Users';
+import Users from './user/Users';
+import AddPick from './add/picks/AddPick';
 
 const Dashboard = () => {
   const [activeNav, setActiveNav] = useState(false);
@@ -36,6 +37,7 @@ const Dashboard = () => {
               path='/dashboard/users'
               render={() => <Users users={users} getAllUsers={getAllUsers} />}
             />
+            <Route exact path='/dashboard/add' render={() => <AddPick />} />
           </Switch>
         </div>
       </div>

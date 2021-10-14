@@ -79,7 +79,7 @@ router.post(
 router.get('/', async (req, res) => {
   const users = await User.find({})
     .select('-password')
-    .populate({ path: 'picks', model: 'Pick' });
+    .populate('picks', 'picks week');
   res.json(users);
 });
 
