@@ -1,0 +1,17 @@
+.add-container {
+  margin: 2rem;
+  h1 {
+    font-size: 2rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    select,
+    .date-input,
+    .submit-game {
+      width: 60%;
+      margin: 0.5rem 0;
+    }
+  }
+}
