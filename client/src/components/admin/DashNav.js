@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import './DashNav.scss';
 
-const DashNav = ({ auth: { user, logout }, activeNav, setActiveNav }) => {
+const DashNav = ({ auth: { user, logout }, activeNav, setActiveNav, url }) => {
   const toggleDashNav = () => {
     if (!activeNav) {
       setActiveNav(true);
@@ -27,21 +27,27 @@ const DashNav = ({ auth: { user, logout }, activeNav, setActiveNav }) => {
       </div>
       <ul className='dashnav-nav'>
         <li>
-          <Link to='/dashboard'>
+          <Link to={url}>
             <i className='bx bx-grid-alt'></i>
             <span className='link-name'>Dashboard</span>
           </Link>
         </li>
         <li>
-          <Link to='/dashboard/users'>
+          <Link to={`${url}/users`}>
             <i className='bx bx-user'></i>
             <span className='link-name'>Users</span>
           </Link>
         </li>
         <li>
-          <Link to='/dashboard/add'>
+          <Link to={`${url}/pick`}>
             <i className='bx bx-list-plus'></i>
             <span className='link-name'>Add Picks</span>
+          </Link>
+        </li>
+        <li>
+          <Link to={`${url}/game`}>
+            <i className='bx bxs-plus-square'></i>
+            <span className='link-name'>Add Game</span>
           </Link>
         </li>
       </ul>

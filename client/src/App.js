@@ -42,22 +42,12 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className='container'>
-          <Route exact path='/dashboard' render={() => <Dashboard />} />
-
-          <div>
-            <Navbar />
-            {!loading ? (
-              <Route exact path='/' render={() => <Landing games={games} />} />
-            ) : (
-              <div className='loading-container'>
-                <p>Loading...</p>
-              </div>
-            )}
-            <Switch>
-              <Route exact path='/register' render={() => <Register />} />
-              <Route exact path='/login' render={() => <Login />} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path='/dashboard' render={() => <Dashboard />} />
+            <Route
+              render={() => <UserRoutes loading={loading} games={games} />}
+            />
+          </Switch>
         </div>
       </Router>
     </Provider>
@@ -65,3 +55,20 @@ function App() {
 }
 
 export default App;
+
+const UserRoutes = ({ loading, games }) => (
+  <div className='container'>
+    <Navbar />
+
+    <Route path='/register' render={() => <Register />} />
+    <Route path='/login' render={() => <Login />} />
+
+    {!loading ? (
+      <Route path='/' render={() => <Landing games={games} />} />
+    ) : (
+      <div className='loading-container'>
+        <p>Loading...</p>
+      </div>
+    )}
+  </div>
+);

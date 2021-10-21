@@ -5,7 +5,7 @@ const weeks = [
     number: 1,
   }),
   (weekTwo = {
-    start: Date.parse('2021-09-17T00:00:00.000Z'),
+    start: Date.parse('2021-09-16T00:00:00.000Z'),
     end: Date.parse('2021-09-21T00:00:00.000Z'),
     number: 2,
   }),

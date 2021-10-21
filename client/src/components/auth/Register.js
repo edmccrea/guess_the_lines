@@ -67,6 +67,9 @@ const Register = ({ isAuthenticated, register }) => {
 
         <input type='submit' className='submit-btn' value='Register' />
       </form>
+      <p className='redirect-link'>
+        Already have an account? Login <Link to='/login'>here</Link>
+      </p>
     </div>
   );
 };

@@ -45,6 +45,10 @@ const Login = ({ login, isAuthenticated }) => {
 
         <input type='submit' className='submit-btn' value='Login' />
       </form>
+
+      <p className='redirect-link'>
+        Don't have an account? Register <Link to='/register'>here</Link>
+      </p>
     </div>
   );
 };

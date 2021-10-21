@@ -46,4 +46,16 @@
       opacity: 0.9;
     }
   }
+  .redirect-link {
+    font-weight: 100;
+    margin-top: 3rem;
+    color: var(--light-color-hover);
+    a {
+      color: var(--primary-color);
+      transition: all 300ms ease;
+      &:hover {
+        color: var(--light-color);
+      }
+    }
+  }
 }

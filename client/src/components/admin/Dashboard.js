@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, useRouteMatch } from 'react-router-dom';
 import './Dashboard.scss';
 
 import DashNav from './DashNav';
@@ -10,39 +10,52 @@ import AddPick from './add/picks/AddPick';
 import AddGame from './add/game/AddGame';
 
 const Dashboard = () => {
+  let { path, url } = useRouteMatch();
   const [activeNav, setActiveNav] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [users, setUsers] = useState(false);
   useEffect(() => {
     getAllUsers();
-  }, [users]);
+    console.log('hey');
+  }, [users.length]);
 
   const getAllUsers = async () => {
     const res = await axios.get('/users');
     setUsers(res.data);
+    setLoading(false);
   };
 
   return (
-    <Router>
-      <div className='dashboard-container'>
-        <DashNav activeNav={activeNav} setActiveNav={setActiveNav} />
+    <div className='dashboard-container'>
+      <DashNav activeNav={activeNav} setActiveNav={setActiveNav} url={url} />
+      {!loading ? (
         <div
           className={
             activeNav ? 'dash-sections dash-sections-active' : 'dash-sections'
           }
         >
-          <Switch>
-            <Route exact path='/dashboard' render={() => <DashHome />} />
-            <Route
-              exact
-              path='/dashboard/users'
-              render={() => <Users users={users} getAllUsers={getAllUsers} />}
-            />
-            <Route exact path='/dashboard/add' render={() => <AddGame />} />
-          </Switch>
+          <Route path={`${path}/pick`} render={() => <AddPick />} />
+          <Route path={`${path}/game`} render={() => <AddGame />} />
+          <Route
+            path={`${path}/users`}
+            render={() => <Users users={users} getAllUsers={getAllUsers} />}
+          />
+
+          <Route exact path={path} render={() => <DashHome />} />
         </div>
-      </div>
-    </Router>
+      ) : (
+        <div
+          className={
+            activeNav
+              ? 'dash-sections dash-sections-active loading-container'
+              : 'dash-sections loading-container'
+          }
+        >
+          <p>Loading ...</p>
+        </div>
+      )}
+    </div>
   );
 };
 

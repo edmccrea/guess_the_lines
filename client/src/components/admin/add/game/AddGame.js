@@ -77,7 +77,7 @@ const AddGame = () => {
   return (
     <div className='add-container'>
       <h1>Add a Game</h1>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className='game-form'>
         <div className='home-input'>
           <select
             name='homeTeam'

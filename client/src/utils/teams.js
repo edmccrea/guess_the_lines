@@ -27,6 +27,7 @@ export const teams = [
   'Philadelphia Eagles',
   'Pittsburgh Steelers',
   'San Franciso 49ers',
+  'Seattle Seahawks',
   'Tampa Bay Buccaneers',
   'Tennessee Titans',
   'Washington Football Team',

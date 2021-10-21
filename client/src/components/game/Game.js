@@ -8,7 +8,7 @@ const Game = ({ game }) => {
   let homeTeam = '';
 
   const convertName = () => {
-    nicknames.map((name) => {
+    nicknames.forEach((name) => {
       if (game.away_team.includes(name)) {
         awayTeam = name;
       }

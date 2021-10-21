@@ -29,4 +29,21 @@ router.get('/', auth, async (req, res) => {
   res.json(weeks);
 });
 
+//@route  GET /week/:week
+//@desc   Get Week by Number
+//@access Private
+
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const week = await Week.find({ week: req.params.id }).populate(
+      'games',
+      'home_team away_team'
+    );
+    res.json(week);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

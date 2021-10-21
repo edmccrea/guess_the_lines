@@ -1,11 +1,12 @@
 .dashboard-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  z-index: 9999;
 
   .dash-sections {
     background-color: #f5f5f5;
     position: absolute;
-    height: 100%;
+    min-height: 100vh;
     width: calc(100% - 106px);
     left: 106px;
     transition: all 0.5s ease;
@@ -14,7 +15,7 @@
   .dash-sections-active {
     background-color: #f5f5f5;
     position: absolute;
-    height: 100%;
+    min-height: 100vh;
     width: calc(100% - 268px);
     left: 268px;
   }
