@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import './DashNav.scss';
 
-const DashNav = ({ auth: { user, logout }, activeNav, setActiveNav, url }) => {
+const DashNav = ({ auth: { user }, logout, activeNav, setActiveNav, url }) => {
   const toggleDashNav = () => {
     if (!activeNav) {
       setActiveNav(true);

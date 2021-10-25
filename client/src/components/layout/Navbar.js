@@ -5,11 +5,7 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import './Navbar.scss';
 
-const Navbar = ({ auth: { user, isAuthenticated, logout } }) => {
-  const userCheck = () => {
-    console.log(user.role);
-  };
-
+const Navbar = ({ auth: { user, isAuthenticated }, logout }) => {
   const guestLinks = (
     <Fragment>
       <Link to='/register'>
@@ -45,7 +41,7 @@ const Navbar = ({ auth: { user, isAuthenticated, logout } }) => {
           <li>Multiplayer</li>
         </Link>
         <Link to='/'>
-          <li onClick={userCheck}>You vs The Boys</li>
+          <li>You vs The Boys</li>
         </Link>
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       </ul>
