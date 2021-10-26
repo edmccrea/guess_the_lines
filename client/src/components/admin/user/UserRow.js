@@ -16,7 +16,7 @@ const UserRow = ({ user, getAllUsers }) => {
         <p className='col-info'>{user.email}</p>
       </div>
       <div className='user-col btn-col'>
-        <Link to={`/picks/${user.id}`}>
+        <Link to={`/picks/${user._id}`}>
           <p className='col-info user-btn picks-btn'>Picks</p>
         </Link>
       </div>

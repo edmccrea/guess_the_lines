@@ -8,6 +8,7 @@ import DashHome from './DashHome';
 import Users from './user/Users';
 import AddPick from './add/picks/AddPick';
 import AddGame from './add/game/AddGame';
+import UserPicks from './user/UserPicks';
 
 const Dashboard = () => {
   let { path, url } = useRouteMatch();
@@ -17,7 +18,6 @@ const Dashboard = () => {
   const [users, setUsers] = useState(false);
   useEffect(() => {
     getAllUsers();
-    console.log('hey');
   }, [users.length]);
 
   const getAllUsers = async () => {
@@ -35,6 +35,7 @@ const Dashboard = () => {
             activeNav ? 'dash-sections dash-sections-active' : 'dash-sections'
           }
         >
+          <Route path='/picks/:id' users={users} render={() => <UserPicks />} />
           <Route path={`${path}/pick`} render={() => <AddPick />} />
           <Route path={`${path}/game`} render={() => <AddGame />} />
           <Route

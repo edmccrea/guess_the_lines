@@ -34,7 +34,7 @@ const Navbar = ({ auth: { user, isAuthenticated }, logout }) => {
         <Link to='/'>
           <i className='bx bx-code-alt'></i>
         </Link>
-        {user && user.role === 'admin' ? adminLinks : ''}
+        {isAuthenticated && user && user.role === 'admin' ? adminLinks : ''}
       </div>
       <ul>
         <Link to='/'>

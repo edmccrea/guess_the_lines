@@ -22,18 +22,18 @@ router.post('/', auth, async (req, res) => {
 
 //@route  GET /week
 //@desc   Get All Weeks
-//@access Private
+//@access Public
 
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   const weeks = await Week.find({}).populate('games', 'home_team away_team');
   res.json(weeks);
 });
 
 //@route  GET /week/:week
 //@desc   Get Week by Number
-//@access Private
+//@access Public
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const week = await Week.find({ week: req.params.id }).populate(
       'games',

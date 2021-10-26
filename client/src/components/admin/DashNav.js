@@ -16,7 +16,9 @@ const DashNav = ({ auth: { user }, logout, activeNav, setActiveNav, url }) => {
 
   return (
     <div
-      className={activeNav ? 'dashnav-container active' : 'dashnav-container'}
+      className={
+        activeNav ? 'dashnav-container active-dash' : 'dashnav-container'
+      }
     >
       <div className='dashnav-logo-content'>
         <div className='dashnav-logo'>

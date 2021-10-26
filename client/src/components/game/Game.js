@@ -3,7 +3,7 @@ import './Game.scss';
 
 import nicknames from '../../utils/nicknames';
 
-const Game = ({ game }) => {
+const Game = ({ game, gameSubmit }) => {
   let awayTeam = '';
   let homeTeam = '';
 
@@ -58,7 +58,9 @@ const Game = ({ game }) => {
           <p className='predicted-line game-btns-col'>{homePoints}</p>
         </div>
       </div>
-      <p className='submit-btn'>Guess</p>
+      <p className='submit-btn' onClick={gameSubmit}>
+        Guess
+      </p>
     </div>
   );
 };
