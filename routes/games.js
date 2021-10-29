@@ -50,4 +50,63 @@ router.get('/', async (req, res) => {
   res.json(games);
 });
 
+//@route  GET /games/lines
+//@desc   Get all Games Lines
+//@access Public
+
+router.get('/lines', async (req, res) => {
+  try {
+    const games = await Game.find({});
+    const lines = [];
+    games.forEach((game) => {
+      lines.push(game.bookmakers[0].markets[0].outcomes);
+    });
+    const final = [];
+    lines.forEach((game) => {
+      game.map((team) => {
+        if (team.point < 0) {
+          final.push({
+            team_name: team.name,
+            point: team.point,
+          });
+        }
+      });
+    });
+    res.json(final);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+//@route  GET /games/lines/week
+//@desc   Get all Games Lines
+//@access Public
+
+router.get('/lines/:week', async (req, res) => {
+  try {
+    const week = await Week.find({ week: req.params.week }).populate('games');
+    const games = week[0].games;
+    const lines = [];
+    games.forEach((game) => {
+      lines.push(game.bookmakers[0].markets[0].outcomes);
+    });
+    const final = [];
+    lines.forEach((game) => {
+      game.map((team) => {
+        if (team.point < 0) {
+          final.push({
+            team_name: team.name,
+            point: team.point,
+          });
+        }
+      });
+    });
+    res.json(final);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

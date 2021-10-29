@@ -18,9 +18,14 @@ const Navbar = ({ auth: { user, isAuthenticated }, logout }) => {
   );
 
   const authLinks = (
-    <Link to='/login' className='login-btn' onClick={logout}>
-      <li>Logout</li>
-    </Link>
+    <Fragment>
+      <Link to='/'>
+        <li>My Picks</li>
+      </Link>
+      <Link to='/login' className='login-btn' onClick={logout}>
+        <li>Logout</li>
+      </Link>
+    </Fragment>
   );
 
   const adminLinks = (
@@ -37,9 +42,6 @@ const Navbar = ({ auth: { user, isAuthenticated }, logout }) => {
         {isAuthenticated && user && user.role === 'admin' ? adminLinks : ''}
       </div>
       <ul>
-        <Link to='/'>
-          <li>Multiplayer</li>
-        </Link>
         <Link to='/'>
           <li>You vs The Boys</li>
         </Link>

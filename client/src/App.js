@@ -5,6 +5,7 @@ import './App.scss';
 import { LOGOUT } from './actions/types';
 
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import Landing from './components/game/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
@@ -98,5 +99,6 @@ const UserRoutes = ({ loading, games, week, setWeek, game, setGame }) => (
         <p>Loading...</p>
       </div>
     )}
+    <Footer />
   </div>
 );

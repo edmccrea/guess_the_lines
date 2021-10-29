@@ -48,18 +48,4 @@
       }
     }
   }
-
-  .submit-btn {
-    margin: 1rem 0;
-    padding: 5px 25px;
-    border-radius: 0.2rem;
-    background-color: var(--primary-color);
-    color: var(--dark-color);
-    transition: all ease-in-out 300ms;
-
-    &:hover {
-      cursor: pointer;
-      color: var(--light-color);
-    }
-  }
 }

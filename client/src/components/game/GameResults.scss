@@ -1,0 +1,25 @@
+.results-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .results-table {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .results-row {
+      width: 60%;
+      display: flex;
+      margin: 0.25rem 0;
+      .results-col {
+        width: 15%;
+      }
+      .game-col {
+        width: 30%;
+      }
+    }
+  }
+}

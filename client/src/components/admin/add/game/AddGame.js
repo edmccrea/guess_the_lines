@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AddGame.scss';
-import { teams } from '../../../../utils/teams';
+import teamInfo from '../../../../utils/teamInfo';
 import { v4 as uuidv4 } from 'uuid';
 
 const AddGame = () => {
@@ -86,9 +86,9 @@ const AddGame = () => {
             required
           >
             <option value='0'>* Select Home Team</option>
-            {teams.map((team) => (
-              <option key={team} value={team}>
-                {team}
+            {teamInfo.map((team) => (
+              <option key={team.name} value={team.name}>
+                {team.name}
               </option>
             ))}
           </select>
@@ -111,9 +111,9 @@ const AddGame = () => {
             required
           >
             <option value='0'>* Select Away Team</option>
-            {teams.map((team) => (
-              <option key={team} value={team}>
-                {team}
+            {teamInfo.map((team) => (
+              <option key={team.name} value={team.name}>
+                {team.name}
               </option>
             ))}
           </select>

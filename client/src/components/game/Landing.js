@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Landing.scss';
 
 import Game from './Game';
+import GameResults from './GameResults';
 
 const Landing = ({ games, week, setWeek, game, setGame }) => {
   //Set week functions
@@ -31,14 +33,47 @@ const Landing = ({ games, week, setWeek, game, setGame }) => {
     }
   };
 
-  //Set game functions
+  //Game functions
+  const [pick, setPick] = useState({});
+  const [picks, setPicks] = useState([]);
+  const [gameEnd, setGameEnd] = useState(false);
+
   const gameSubmit = () => {
-    console.log(games.length);
-    console.log(game);
     if (game < games.length - 1) {
       setGame(game + 1);
+      setActiveRight(false);
+    }
+
+    if (game === games.length - 1) {
+      setGame(game);
+      setGameEnd(true);
     }
   };
+
+  //Submit picks to database
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const savePicks = () => {
+    axios.post(
+      '/picks',
+      {
+        week,
+        picks,
+      },
+      config
+    );
+    setPick({});
+    setPicks([]);
+    setGame(0);
+    setGameEnd(false);
+  };
+
+  const [showResults, setShowResults] = useState(true);
+
   return (
     <div className='landing-container'>
       <div className='week-selection'>
@@ -60,12 +95,28 @@ const Landing = ({ games, week, setWeek, game, setGame }) => {
           onClick={weekHandlerUp}
         ></i>
       </div>
-
-      <Game className='game' game={games[game]} gameSubmit={gameSubmit} />
-
-      {/* {games.map((game) => (
-        <Game key={game._id} className='game' game={game} />
-      ))} */}
+      {showResults ? (
+        <GameResults games={games} week={week} />
+      ) : !games.length ? (
+        <p>There are no lines for this week yet.</p>
+      ) : !gameEnd ? (
+        <Game
+          className='game'
+          game={games[game]}
+          gameSubmit={gameSubmit}
+          setPick={setPick}
+          pick={pick}
+          setPicks={setPicks}
+          picks={picks}
+        />
+      ) : (
+        <p
+          className={gameEnd ? 'submit-btn' : 'submit-btn submit-hidden'}
+          onClick={savePicks}
+        >
+          Save Picks
+        </p>
+      )}
     </div>
   );
 };

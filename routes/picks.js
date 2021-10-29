@@ -146,7 +146,18 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   const user = await User.findById(req.params.id);
-  const picks = await BillsPicks.find({}).populate('user');
+  const picks = await Pick.find({ user }).populate('user');
+  res.json(picks);
+});
+
+//@route  GET /picks/:id/:week
+//@desc   Get Users Picks by Id by Week
+//@access Private
+
+router.get('/:id/:week', auth, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  const week = req.params.week;
+  const picks = await Pick.find({ user, week }).populate('user');
   res.json(picks);
 });
 

@@ -1,26 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Game.scss';
 
-import nicknames from '../../utils/nicknames';
+import teamInfo from '../../utils/teamInfo';
 
-const Game = ({ game, gameSubmit }) => {
+const Game = ({
+  game,
+  gameSubmit,
+  setPick,
+  pick,
+  setPicks,
+  picks,
+  gameEnd,
+}) => {
+  //Convert team names
   let awayTeam = '';
   let homeTeam = '';
 
   const convertName = () => {
-    nicknames.forEach((name) => {
-      if (game.away_team.includes(name)) {
-        awayTeam = name;
+    teamInfo.forEach((team) => {
+      if (game.away_team.includes(team.nickname)) {
+        awayTeam = team.nickname;
       }
 
-      if (game.home_team.includes(name)) {
-        homeTeam = name;
+      if (game.home_team.includes(team.nickname)) {
+        homeTeam = team.nickname;
       }
     });
   };
 
   convertName();
 
+  //Set point spreads
   const [awayPoints, setAwayPoints] = useState(0);
   const [homePoints, setHomePoints] = useState(0);
   const addPoints = (team) => {
@@ -34,6 +44,47 @@ const Game = ({ game, gameSubmit }) => {
       setHomePoints(homePoints - 0.5);
     }
   };
+
+  //Submit pick
+  const pickSubmit = async () => {
+    if (awayPoints <= 0) {
+      setPick({
+        team_name: awayTeam,
+        point: awayPoints,
+      });
+
+      setPicks([
+        ...picks,
+        {
+          team_name: awayTeam,
+          point: awayPoints,
+        },
+      ]);
+    }
+
+    if (homePoints <= 0) {
+      setPick({
+        team_name: homeTeam,
+        point: homePoints,
+      });
+      setPicks([
+        ...picks,
+        {
+          team_name: homeTeam,
+          point: homePoints,
+        },
+      ]);
+    }
+
+    setAwayPoints(0);
+    setHomePoints(0);
+  };
+
+  useEffect(() => {
+    console.log(pick);
+    console.log(picks);
+  }, [pick, picks]);
+
   return (
     <div className='game-container'>
       <div className='game-info'>
@@ -58,7 +109,13 @@ const Game = ({ game, gameSubmit }) => {
           <p className='predicted-line game-btns-col'>{homePoints}</p>
         </div>
       </div>
-      <p className='submit-btn' onClick={gameSubmit}>
+      <p
+        className={gameEnd ? 'submit-btn submit-hidden' : 'submit-btn'}
+        onClick={() => {
+          pickSubmit();
+          gameSubmit();
+        }}
+      >
         Guess
       </p>
     </div>

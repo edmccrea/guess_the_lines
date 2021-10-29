@@ -12,7 +12,7 @@ const AdminRoute = ({
     {...rest}
     render={(props) =>
       !isAuthenticated || (user && user.role !== 'admin') ? (
-        <Redirect to='/login' />
+        <Redirect to='/' />
       ) : (
         <Component {...props} />
       )
