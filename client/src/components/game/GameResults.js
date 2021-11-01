@@ -11,9 +11,9 @@ const GameResults = ({ auth: { user }, games, week }) => {
   const [userPicks, setUserPicks] = useState([]);
   const [billPicks, setBillPicks] = useState([]);
   const [salPicks, setSalPicks] = useState([]);
-
-  const [finalDiffs, setFinalDiffs] = useState([]);
-  const [correctedPicks, setCorrectedPicks] = useState([]);
+  const [usersPoints, setUsersPoints] = useState(0);
+  const [billsPoints, setBillsPoints] = useState(0);
+  const [salsPoints, setSalsPoints] = useState(0);
 
   useEffect(() => {
     //Get All Picks
@@ -71,56 +71,80 @@ const GameResults = ({ auth: { user }, games, week }) => {
     }
   };
 
-  convertName(games);
+  const getResults = (games) => {
+    const alteredPicks = [];
 
-  //measure the difference between line and each of the users picks
-  //set the score as plus one to whovevers line was closest
+    //Loop through each game
+    games.forEach((games, i) => {
+      //Grab hold of the pick to compare each game to from each user
+      const comparisons = [userPicks[i], billPicks[i], salPicks[i]];
 
-  //first check the the teams match, if not then that number becomes a plus
-  //   const scoreGame = (games) => {
-  //     games.map((game, i) => {
-  //       const comparisons = [userPicks[i], billPicks[i], salPicks[i]];
-  //       const convertScores = (picks) => {
-  //         const result = [];
-  //         picks.forEach((user) => {
-  //           if (user.team_abbr !== line[i].team_abbr) {
-  //             const altered = {
-  //               ...user,
-  //               point: user.point - user.point - user.point,
-  //             };
-  //             result.push(altered);
-  //           } else {
-  //             result.push(user);
-  //           }
-  //         });
-  //         setCorrectedPicks([...correctedPicks, [result]]);
-  //         //   return result;
-  //       };
+      //Comvert any picks that selected the wrong team to a positive number
+      const convertScores = (picks) => {
+        const result = [];
+        picks.forEach((user) => {
+          if (user.team_abbr !== line[i].team_abbr) {
+            const altered = {
+              ...user,
+              point: Math.abs(user.point),
+            };
+            result.push(altered);
+          } else {
+            result.push(user);
+          }
+        });
+        alteredPicks.push(result);
+      };
 
-  // convertScores(comparisons);
-  // console.log(correctedPicks);
+      convertScores(comparisons);
+    });
 
-  // const checkDiff = (alteredPicks) => {
-  //   const calcDiffs = [];
-  //   alteredPicks.forEach((pick) => {
-  //     const diff = pick.point - line[i].point;
-  //     calcDiffs.push(diff);
-  //   });
-  //   setFinalDiffs(...finalDiffs, calcDiffs);
-  // };
+    //Calculate the difference between the line and the pick with the number now converted if wrong team selected
+    const calcDiff = (alteredPicks) => {
+      line.forEach((pick, i) => {
+        alteredPicks[i].forEach((item) => {
+          item.diff = Math.abs(item.point - pick.point);
+        });
+      });
+    };
 
-  // checkDiff(convertScores(comparisons));
-  //     });
-  //   };
+    calcDiff(alteredPicks);
 
-  //   scoreGame(games);
+    const setScore = (calcedDiffs) => {
+      const gamePoints = [0, 0, 0];
+      calcedDiffs.forEach((picks) => {
+        let closest = 100;
+        picks.forEach((pick) => {
+          if (pick.diff < closest) {
+            closest = pick.diff;
+          }
+        });
 
-  //Calculate Results
-
-  const assignPoints = (diffs) => {
-    console.log(diffs);
-    diffs.forEach((diff) => {});
+        picks.forEach((pick) => {
+          if (pick.diff === closest) {
+            if (picks.indexOf(pick) === 0) {
+              gamePoints[0] += 1;
+            }
+            if (picks.indexOf(pick) === 1) {
+              gamePoints[1] += 1;
+            }
+            if (picks.indexOf(pick) === 2) {
+              gamePoints[2] += 1;
+            }
+          }
+        });
+      });
+      return gamePoints;
+    };
+    const score = setScore(alteredPicks);
+    return score;
   };
+
+  let scores = [];
+  if (!loading) {
+    convertName(games);
+    scores = getResults(games);
+  }
 
   return (
     <div className='results-container'>
@@ -161,9 +185,9 @@ const GameResults = ({ auth: { user }, games, week }) => {
           <div className='score-row results-row'>
             <span className='results-col game-col'>Total</span>
             <span className='results-col'>*</span>
-            <span className='results-col'>1</span>
-            <span className='results-col'>2</span>
-            <span className='results-col'>3</span>
+            <span className='results-col'>{scores[0]}</span>
+            <span className='results-col'>{scores[1]}</span>
+            <span className='results-col'>{scores[2]}</span>
           </div>
         </div>
       )}

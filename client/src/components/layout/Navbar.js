@@ -43,7 +43,7 @@ const Navbar = ({ auth: { user, isAuthenticated }, logout }) => {
       </div>
       <ul>
         <Link to='/'>
-          <li>You vs The Boys</li>
+          <li>You vs Line/Bill/Sal/Actual</li>
         </Link>
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       </ul>

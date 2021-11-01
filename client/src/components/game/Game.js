@@ -80,11 +80,6 @@ const Game = ({
     setHomePoints(0);
   };
 
-  useEffect(() => {
-    console.log(pick);
-    console.log(picks);
-  }, [pick, picks]);
-
   return (
     <div className='game-container'>
       <div className='game-info'>
