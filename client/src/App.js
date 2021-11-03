@@ -34,8 +34,6 @@ function App() {
   const [week, setWeek] = useState(1);
   const [games, setGames] = useState(false);
   const [game, setGame] = useState(0);
-  // const [guess, setGuess] = useState(false);
-  // const [score, setScore] = useState(false);
 
   useEffect(() => {
     const getWeek = async () => {
@@ -83,6 +81,7 @@ const UserRoutes = ({ loading, games, week, setWeek, game, setGame }) => (
 
     {!loading ? (
       <Route
+        exact
         path='/'
         render={() => (
           <Landing

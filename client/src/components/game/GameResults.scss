@@ -4,11 +4,17 @@
   flex-direction: column;
   align-items: center;
 
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
   .results-table {
     width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 2rem;
 
     .results-row {
       width: 60%;
@@ -19,6 +25,14 @@
       }
       .game-col {
         width: 30%;
+      }
+    }
+    .score-row {
+      margin: 1rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      .winner {
+        color: var(--success-color);
       }
     }
   }

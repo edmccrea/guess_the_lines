@@ -3,73 +3,41 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import './GameResults.scss';
 
-import teamInfo from '../../utils/teamInfo';
+import { convertName } from '../../utils/convertName';
 
-const GameResults = ({ auth: { user }, games, week }) => {
+const GameResults = ({ auth: { user }, games, week, userPicks }) => {
   const [loading, setLoading] = useState(true);
   const [line, setLine] = useState([]);
-  const [userPicks, setUserPicks] = useState([]);
   const [billPicks, setBillPicks] = useState([]);
   const [salPicks, setSalPicks] = useState([]);
-  const [usersPoints, setUsersPoints] = useState(0);
-  const [billsPoints, setBillsPoints] = useState(0);
-  const [salsPoints, setSalsPoints] = useState(0);
+
+  // const [winningPicks, setWinningPicks] = useState([]);
 
   useEffect(() => {
     //Get All Picks
-    if (user) {
-      const getPicks = async () => {
-        const res = await axios.get(`/games/lines/${week}`);
-        setLine(convertName(res.data));
 
-        const res2 = await axios.get(`/picks/${user._id}/${week}`);
-        setUserPicks(convertName(res2.data[0].picks));
+    const getPicks = async () => {
+      const res = await axios.get(`/games/lines/${week}`);
+      setLine(convertName(res.data));
 
-        const res3 = await axios.get(`/picks/617bca21949eb6d15fae893c/${week}`);
-        setBillPicks(convertName(res3.data[0].picks));
+      const res2 = await axios.get(`/picks/617bca21949eb6d15fae893c/${week}`);
+      if (res2.data.length === 0) {
+        setBillPicks([]);
+      } else {
+        setBillPicks(convertName(res2.data[0].picks));
+      }
 
-        const res4 = await axios.get(`/picks/617bcb01949eb6d15fae89aa/${week}`);
-        setSalPicks(convertName(res4.data[0].picks));
+      const res3 = await axios.get(`/picks/617bcb01949eb6d15fae89aa/${week}`);
+      if (res3.data.length === 0) {
+        setSalPicks([]);
+      } else {
+        setSalPicks(convertName(res3.data[0].picks));
+      }
 
-        setLoading(false);
-      };
-      getPicks();
-    }
-  }, [user, user._id, week]);
-
-  //Convert Team Names
-  let awayTeams = [];
-  let homeTeams = [];
-
-  const convertName = (games) => {
-    let arr = [];
-    games.forEach((game) => {
-      teamInfo.forEach((team) => {
-        if ('away_team' in game) {
-          if (game.away_team.includes(team.name)) {
-            awayTeams.push(team.abbreviation);
-          }
-
-          if (game.home_team.includes(team.name)) {
-            homeTeams.push(team.abbreviation);
-          }
-        }
-        if ('team_name' in game) {
-          if (
-            game.team_name.includes(team.name) ||
-            game.team_name.includes(team.nickname)
-          ) {
-            game = { ...game, team_abbr: team.abbreviation };
-            arr.push(game);
-          }
-        }
-      });
-    });
-
-    if (arr.length > 0) {
-      return arr;
-    }
-  };
+      setLoading(false);
+    };
+    getPicks();
+  }, [week]);
 
   const getResults = (games) => {
     const alteredPicks = [];
@@ -140,10 +108,30 @@ const GameResults = ({ auth: { user }, games, week }) => {
     return score;
   };
 
+  // const getWinningLines = (line) => {
+  //   let arr = [];
+  //   line.forEach((pick) => {
+  //     arr.push(pick.point);
+  //   });
+  //   return arr;
+  // };
+
+  let winningScore = 0;
+
+  const decideWinner = (scores) => {
+    scores.forEach((score) => {
+      if (score > winningScore) {
+        winningScore = score;
+      }
+    });
+  };
+
   let scores = [];
+  const names = convertName(games);
   if (!loading) {
-    convertName(games);
     scores = getResults(games);
+    decideWinner(scores);
+    // setWinningPicks(getWinningLines(line));
   }
 
   return (
@@ -164,7 +152,7 @@ const GameResults = ({ auth: { user }, games, week }) => {
             return (
               <div className='results-row' key={game._id}>
                 <span className='game-col results-col'>
-                  {awayTeams[i]} @ {homeTeams[i]}
+                  {names[1][i]} @ {names[0][i]}
                 </span>
                 <span className='results-col'>
                   {line[i].team_abbr} {line[i].point}
@@ -185,9 +173,33 @@ const GameResults = ({ auth: { user }, games, week }) => {
           <div className='score-row results-row'>
             <span className='results-col game-col'>Total</span>
             <span className='results-col'>*</span>
-            <span className='results-col'>{scores[0]}</span>
-            <span className='results-col'>{scores[1]}</span>
-            <span className='results-col'>{scores[2]}</span>
+            <span
+              className={
+                scores[0] === winningScore
+                  ? 'winner results-col'
+                  : 'results-col'
+              }
+            >
+              {scores[0]}
+            </span>
+            <span
+              className={
+                scores[1] === winningScore
+                  ? 'winner results-col'
+                  : 'results-col'
+              }
+            >
+              {scores[1]}
+            </span>
+            <span
+              className={
+                scores[2] === winningScore
+                  ? 'winner results-col'
+                  : 'results-col'
+              }
+            >
+              {scores[2]}
+            </span>
           </div>
         </div>
       )}
