@@ -42,8 +42,8 @@ const Navbar = ({ auth: { user, isAuthenticated }, logout }) => {
         {isAuthenticated && user && user.role === 'admin' ? adminLinks : ''}
       </div>
       <ul>
-        <Link to='/'>
-          <li>You vs Line/Bill/Sal/Actual</li>
+        <Link to='/about'>
+          <li>About</li>
         </Link>
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       </ul>

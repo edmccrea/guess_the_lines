@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import './App.scss';
-import { LOGOUT } from './actions/types';
+import { getCurrentWeek } from './utils/getCurrentWeek';
 
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Landing from './components/game/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import About from './components/About';
 import Dashboard from './components/admin/Dashboard';
 
 import AdminRoute from './components/routing/AdminRoute';
@@ -18,6 +19,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
+import { LOGOUT } from './actions/types';
 
 function App() {
   useEffect(() => {
@@ -31,7 +33,7 @@ function App() {
   }, []);
 
   const [loading, setLoading] = useState(true);
-  const [week, setWeek] = useState(1);
+  const [week, setWeek] = useState(getCurrentWeek(Date.now()));
   const [games, setGames] = useState(false);
   const [game, setGame] = useState(0);
 
@@ -78,6 +80,7 @@ const UserRoutes = ({ loading, games, week, setWeek, game, setGame }) => (
 
     <Route path='/register' render={() => <Register />} />
     <Route path='/login' render={() => <Login />} />
+    <Route path='/about' render={() => <About />} />
 
     {!loading ? (
       <Route

@@ -22,17 +22,38 @@
       margin: 0.25rem 0;
       .results-col {
         width: 15%;
+        margin-left: auto;
+      }
+      .winning-pick {
+        color: var(--primary-color);
+        font-weight: 700;
       }
       .game-col {
         width: 30%;
       }
     }
+
+    .results-header {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--light-color-hover);
+    }
+
+    .win-phrase {
+      width: 50%;
+      font-size: 1.3rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+
     .score-row {
       margin: 1rem;
       font-weight: 700;
       font-size: 1.2rem;
       .winner {
-        color: var(--success-color);
+        color: var(--primary-color);
       }
     }
   }

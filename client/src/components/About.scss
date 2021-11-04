@@ -1,0 +1,25 @@
+.about-container {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  justify-content: center;
+  .about-content {
+    width: 60%;
+    margin: 2rem 0;
+    h1 {
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .about-redirect {
+      margin: 2rem 0;
+      a {
+        color: var(--primary-color);
+        transition: all ease 300ms;
+        &:hover {
+          color: var(--light-color-hover);
+        }
+      }
+    }
+  }
+}

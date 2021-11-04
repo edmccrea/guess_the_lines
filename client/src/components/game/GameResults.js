@@ -11,7 +11,7 @@ const GameResults = ({ auth: { user }, games, week, userPicks }) => {
   const [billPicks, setBillPicks] = useState([]);
   const [salPicks, setSalPicks] = useState([]);
 
-  // const [winningPicks, setWinningPicks] = useState([]);
+  const winningPick = [];
 
   useEffect(() => {
     //Get All Picks
@@ -88,19 +88,24 @@ const GameResults = ({ auth: { user }, games, week, userPicks }) => {
           }
         });
 
-        picks.forEach((pick) => {
+        const closestPicks = [];
+        picks.forEach((pick, i) => {
           if (pick.diff === closest) {
             if (picks.indexOf(pick) === 0) {
-              gamePoints[0] += 1;
+              closestPicks.push(i);
+              gamePoints[i] += 1;
             }
             if (picks.indexOf(pick) === 1) {
-              gamePoints[1] += 1;
+              closestPicks.push(i);
+              gamePoints[i] += 1;
             }
             if (picks.indexOf(pick) === 2) {
-              gamePoints[2] += 1;
+              closestPicks.push(i);
+              gamePoints[i] += 1;
             }
           }
         });
+        winningPick.push(closestPicks);
       });
       return gamePoints;
     };
@@ -108,30 +113,38 @@ const GameResults = ({ auth: { user }, games, week, userPicks }) => {
     return score;
   };
 
-  // const getWinningLines = (line) => {
-  //   let arr = [];
-  //   line.forEach((pick) => {
-  //     arr.push(pick.point);
-  //   });
-  //   return arr;
-  // };
-
   let winningScore = 0;
+  let winnerIndex = 0;
 
   const decideWinner = (scores) => {
-    scores.forEach((score) => {
+    scores.forEach((score, i) => {
       if (score > winningScore) {
         winningScore = score;
+        winnerIndex = i;
       }
     });
   };
 
+  const generateWinPhrase = (index) => {
+    const name = ['You', 'Bill', 'Sal'];
+    const winnerPhrases = [
+      `${name[index]} must have been cheating this week, right? Winner.`,
+      `The others didnt stand a chance. ${name[index]} takes this one home.`,
+      `A well deserved win this week for ${name[index]}`,
+    ];
+
+    const i = Math.floor(Math.random() * (winnerPhrases.length - 1));
+
+    return winnerPhrases[i];
+  };
+
+  let winPhrase = '';
   let scores = [];
   const names = convertName(games);
   if (!loading) {
     scores = getResults(games);
     decideWinner(scores);
-    // setWinningPicks(getWinningLines(line));
+    winPhrase = generateWinPhrase(winnerIndex);
   }
 
   return (
@@ -157,15 +170,32 @@ const GameResults = ({ auth: { user }, games, week, userPicks }) => {
                 <span className='results-col'>
                   {line[i].team_abbr} {line[i].point}
                 </span>
-                <span className='results-col'>
-                  {userPicks[i].team_abbr}
-                  {userPicks[i].point}
+                <span
+                  className={
+                    winningPick[i].includes(0)
+                      ? 'winning-pick results-col'
+                      : 'results-col'
+                  }
+                >
+                  {userPicks[i].team_abbr} {userPicks[i].point}
                 </span>
-                <span className='results-col'>
+                <span
+                  className={
+                    winningPick[i].includes(1)
+                      ? 'winning-pick results-col'
+                      : 'results-col'
+                  }
+                >
                   {billPicks[i].team_abbr} {billPicks[i].point}
                 </span>
-                <span className='results-col'>
-                  {`${salPicks[i].team_abbr} ${salPicks[i].point}`}
+                <span
+                  className={
+                    winningPick[i].includes(2)
+                      ? 'winning-pick results-col'
+                      : 'results-col'
+                  }
+                >
+                  {salPicks[i].team_abbr} {salPicks[i].point}
                 </span>
               </div>
             );
@@ -201,6 +231,7 @@ const GameResults = ({ auth: { user }, games, week, userPicks }) => {
               {scores[2]}
             </span>
           </div>
+          <div className='win-phrase'>{winPhrase}</div>
         </div>
       )}
     </div>
