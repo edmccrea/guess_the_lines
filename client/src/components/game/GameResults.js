@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import './GameResults.scss';
 
 import { convertName } from '../../utils/convertName';
+import podcastLinks from '../../utils/podcastLinks';
 
-const GameResults = ({ auth: { user }, games, week, userPicks }) => {
+const GameResults = ({ games, week, userPicks, picks }) => {
   const [loading, setLoading] = useState(true);
   const [line, setLine] = useState([]);
   const [billPicks, setBillPicks] = useState([]);
@@ -16,34 +18,33 @@ const GameResults = ({ auth: { user }, games, week, userPicks }) => {
   useEffect(() => {
     //Get All Picks
 
-    const getPicks = async () => {
+    picks.billPicks.forEach((pick) => {
+      if (pick.week === week) {
+        setBillPicks(convertName(pick.picks));
+        return;
+      }
+    });
+
+    picks.salPicks.forEach((pick) => {
+      if (pick.week === week) {
+        setSalPicks(convertName(pick.picks));
+        return;
+      }
+    });
+
+    const getLine = async () => {
       const res = await axios.get(`/games/lines/${week}`);
       setLine(convertName(res.data));
-
-      const res2 = await axios.get(`/picks/617bca21949eb6d15fae893c/${week}`);
-      if (res2.data.length === 0) {
-        setBillPicks([]);
-      } else {
-        setBillPicks(convertName(res2.data[0].picks));
-      }
-
-      const res3 = await axios.get(`/picks/617bcb01949eb6d15fae89aa/${week}`);
-      if (res3.data.length === 0) {
-        setSalPicks([]);
-      } else {
-        setSalPicks(convertName(res3.data[0].picks));
-      }
-
       setLoading(false);
     };
-    getPicks();
-  }, [week]);
+    getLine();
+  }, [week, picks.billPicks, picks.salPicks]);
 
   const getResults = (games) => {
     const alteredPicks = [];
 
     //Loop through each game
-    games.forEach((games, i) => {
+    games.forEach((game, i) => {
       //Grab hold of the pick to compare each game to from each user
       const comparisons = [userPicks[i], billPicks[i], salPicks[i]];
 
@@ -231,14 +232,27 @@ const GameResults = ({ auth: { user }, games, week, userPicks }) => {
               {scores[2]}
             </span>
           </div>
-          <div className='win-phrase'>{winPhrase}</div>
+          <div className='win-phrase'>
+            <p>{winPhrase}</p>
+          </div>
+          <div className='podcast-link'>
+            <p>
+              Listen to the podcast{' '}
+              <Link
+                to={{ pathname: podcastLinks[week - 1].link }}
+                target='_blank'
+              >
+                here.
+              </Link>
+            </p>
+          </div>
         </div>
       )}
     </div>
   );
 };
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  picks: state.picks,
 });
 
 export default connect(mapStateToProps)(GameResults);

@@ -20,7 +20,7 @@
     background-color: var(--dark-color);
     color: var(--light-color);
     margin: 0.5rem 0;
-    padding: 0.4rem;
+    padding: 0.7rem;
     border: none;
     border-bottom: 1px solid var(--light-color);
     transition: all ease-in-out 200ms;
@@ -29,8 +29,16 @@
       font-weight: 100;
     }
     &:focus {
-      outline: 1px solid var(--light-color-hover);
+      outline: none;
     }
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--dark-color) inset !important;
+    -webkit-text-fill-color: var(--light-color) !important;
   }
 
   .submit-btn {

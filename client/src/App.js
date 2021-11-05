@@ -11,6 +11,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import About from './components/About';
 import Dashboard from './components/admin/Dashboard';
+import Alert from './components/layout/Alert';
 
 import AdminRoute from './components/routing/AdminRoute';
 
@@ -77,6 +78,7 @@ export default App;
 const UserRoutes = ({ loading, games, week, setWeek, game, setGame }) => (
   <div className='container'>
     <Navbar />
+    <Alert />
 
     <Route path='/register' render={() => <Register />} />
     <Route path='/login' render={() => <Login />} />

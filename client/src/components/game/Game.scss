@@ -19,6 +19,7 @@
       font-size: 2rem;
       margin: 1rem auto 0;
       display: flex;
+      align-items: center;
       justify-content: space-evenly;
       width: 100%;
 
@@ -30,13 +31,14 @@
     .time-date {
       font-weight: 100;
       font-size: 0.9rem;
-      margin: 0.5rem 0 1rem;
+      margin: 0.5rem 0 1.5rem;
     }
 
     .game-btns {
       display: flex;
       justify-content: center;
       width: 100%;
+      margin-bottom: 1rem;
       .game-btns-col {
         width: 25%;
       }

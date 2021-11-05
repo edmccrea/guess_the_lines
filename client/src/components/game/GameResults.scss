@@ -43,17 +43,27 @@
 
     .win-phrase {
       width: 50%;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       text-align: center;
       margin: 1rem 0;
     }
 
+    .podcast-link {
+      a {
+        color: var(--primary-color);
+        transition: all ease 300ms;
+        &:hover {
+          color: var(--light-color-hover);
+        }
+      }
+    }
+
     .score-row {
       margin: 1rem;
-      font-weight: 700;
       font-size: 1.2rem;
       .winner {
         color: var(--primary-color);
+        font-weight: 700;
       }
     }
   }

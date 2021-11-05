@@ -41,12 +41,6 @@ const DashNav = ({ auth: { user }, logout, activeNav, setActiveNav, url }) => {
           </Link>
         </li>
         <li>
-          <Link to={`${url}/pick`}>
-            <i className='bx bx-list-plus'></i>
-            <span className='link-name'>Add Picks</span>
-          </Link>
-        </li>
-        <li>
           <Link to={`${url}/game`}>
             <i className='bx bxs-plus-square'></i>
             <span className='link-name'>Add Game</span>

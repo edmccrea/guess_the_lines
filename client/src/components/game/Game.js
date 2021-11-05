@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import './Game.scss';
 
 import teamInfo from '../../utils/teamInfo';
+import { setAlert } from '../../actions/alert';
 
 const Game = ({
+  auth: { user },
+  setAlert,
   game,
   gameSubmit,
   setPick,
-  pick,
   setPicks,
   picks,
   gameEnd,
@@ -30,6 +34,18 @@ const Game = ({
 
   convertName();
 
+  //Display day & date
+  const displayDate = (game) => {
+    const config = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    const date = new Date(game.commence_time);
+    return date.toLocaleDateString('en-GB', config);
+  };
+
   //Set point spreads
   const [awayPoints, setAwayPoints] = useState(0);
   const [homePoints, setHomePoints] = useState(0);
@@ -47,37 +63,42 @@ const Game = ({
 
   //Submit pick
   const pickSubmit = async () => {
-    if (awayPoints <= 0) {
-      setPick({
-        team_name: awayTeam,
-        point: awayPoints,
-      });
-
-      setPicks([
-        ...picks,
-        {
+    if (!user) {
+      setAlert('You must be logged on in order to guess', 'primary');
+    }
+    if (user) {
+      if (awayPoints <= 0) {
+        setPick({
           team_name: awayTeam,
           point: awayPoints,
-        },
-      ]);
-    }
+        });
 
-    if (homePoints <= 0) {
-      setPick({
-        team_name: homeTeam,
-        point: homePoints,
-      });
-      setPicks([
-        ...picks,
-        {
+        setPicks([
+          ...picks,
+          {
+            team_name: awayTeam,
+            point: awayPoints,
+          },
+        ]);
+      }
+
+      if (homePoints <= 0) {
+        setPick({
           team_name: homeTeam,
           point: homePoints,
-        },
-      ]);
-    }
+        });
+        setPicks([
+          ...picks,
+          {
+            team_name: homeTeam,
+            point: homePoints,
+          },
+        ]);
+      }
 
-    setAwayPoints(0);
-    setHomePoints(0);
+      setAwayPoints(0);
+      setHomePoints(0);
+    }
   };
 
   return (
@@ -89,7 +110,7 @@ const Game = ({
           <h2 className='team-info'>{homeTeam}</h2>
         </div>
         <div className='time-date'>
-          <p>Sunday 10th October 13:00</p>
+          <p>{displayDate(game)}</p>
         </div>
         <div className='game-btns'>
           <p className='predicted-line game-btns-col'>{awayPoints}</p>
@@ -117,4 +138,12 @@ const Game = ({
   );
 };
 
-export default Game;
+Game.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { setAlert })(Game);

@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
   try {
     const week = await Week.find({ week: req.params.id }).populate(
       'games',
-      'home_team away_team'
+      'home_team away_team commence_time'
     );
     res.json(week);
   } catch (err) {

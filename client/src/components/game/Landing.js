@@ -1,47 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import './Landing.scss';
 import { convertName } from '../../utils/convertName';
 
 import Game from './Game';
 import GameResults from './GameResults';
+import { setAlert } from '../../actions/alert';
+import { getUsersPicks, getBillPicks, getSalPicks } from '../../actions/picks';
 
-const Landing = ({ auth: { user }, games, week, setWeek, game, setGame }) => {
+const Landing = ({
+  auth: { user },
+  setAlert,
+  games,
+  week,
+  setWeek,
+  game,
+  setGame,
+  getUsersPicks,
+  getBillPicks,
+  getSalPicks,
+  test,
+}) => {
   const [loading, setLoading] = useState(true);
+
   const weekHandlerUp = () => {
     if (week < 18) {
       setWeek(week + 1);
+      setLoading(true);
     }
   };
   const weekHandlerDown = () => {
     if (week > 1) {
       setWeek(week - 1);
+      setLoading(true);
     }
   };
 
   //Set user picks & week buttons
 
-  const [showResults, setShowResults] = useState(true);
+  const [showResults, setShowResults] = useState(false);
   const [userPicks, setUserPicks] = useState([]);
+  const [picksSubmitted, setPicksSubmitted] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    getBillPicks();
+    getSalPicks();
+
+    // setLoading(true);
+    setShowResults(false);
     if (user) {
-      const getUserPicks = async () => {
-        const res = await axios.get(`/picks/${user._id}/${week}`);
-        if (res.data.length === 0) {
-          setUserPicks([]);
-          setShowResults(false);
-          setLoading(false);
-        }
-        if (res.data.length > 0) {
-          setUserPicks(convertName(res.data[0].picks));
+      getUsersPicks(user._id);
+      test.userPicks.forEach((pick) => {
+        if (pick.week === week) {
           setShowResults(true);
-          setLoading(false);
+          setUserPicks(convertName(pick.picks));
+          return;
         }
-      };
-      getUserPicks();
+      });
+      setLoading(false);
     }
 
     if (!user) {
@@ -59,26 +77,40 @@ const Landing = ({ auth: { user }, games, week, setWeek, game, setGame }) => {
     if (week === 18) {
       setActiveRight(false);
     } else setActiveRight(true);
-  }, [user, week]);
+    setPicksSubmitted(false);
+    // setLoading(false);
+  }, [
+    user,
+    week,
+    picksSubmitted,
+    getBillPicks,
+    getSalPicks,
+    getUsersPicks,
+    test.userPicks,
+  ]);
 
   //Set week functions
   const [activeLeft, setActiveLeft] = useState(true);
   const [activeRight, setActiveRight] = useState(true);
 
   //Game functions
+  // eslint-disable-next-line
   const [pick, setPick] = useState({});
   const [picks, setPicks] = useState([]);
   const [gameEnd, setGameEnd] = useState(false);
 
   const gameSubmit = () => {
-    if (game < games.length - 1) {
-      setGame(game + 1);
-      setActiveRight(false);
-    }
+    if (user) {
+      if (game < games.length - 1) {
+        setGame(game + 1);
+        setActiveRight(false);
+        setActiveLeft(false);
+      }
 
-    if (game === games.length - 1) {
-      setGame(game);
-      setGameEnd(true);
+      if (game === games.length - 1) {
+        setGame(game);
+        setGameEnd(true);
+      }
     }
   };
 
@@ -102,7 +134,11 @@ const Landing = ({ auth: { user }, games, week, setWeek, game, setGame }) => {
     setPicks([]);
     setGame(0);
     setGameEnd(false);
-    setShowResults(true);
+    setActiveLeft(true);
+    setActiveRight(true);
+    setLoading(true);
+    setPicksSubmitted(true);
+    setAlert('Picks submitted', 'primary');
   };
 
   return (
@@ -143,7 +179,6 @@ const Landing = ({ auth: { user }, games, week, setWeek, game, setGame }) => {
           game={games[game]}
           gameSubmit={gameSubmit}
           setPick={setPick}
-          pick={pick}
           setPicks={setPicks}
           picks={picks}
         />
@@ -159,8 +194,21 @@ const Landing = ({ auth: { user }, games, week, setWeek, game, setGame }) => {
   );
 };
 
+Landing.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  getUsersPicks: PropTypes.func.isRequired,
+  getBillPicks: PropTypes.func.isRequired,
+  getSalPicks: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  test: state.picks,
 });
 
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps, {
+  setAlert,
+  getUsersPicks,
+  getBillPicks,
+  getSalPicks,
+})(Landing);

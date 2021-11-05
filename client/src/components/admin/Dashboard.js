@@ -6,7 +6,6 @@ import './Dashboard.scss';
 import DashNav from './DashNav';
 import DashHome from './DashHome';
 import Users from './user/Users';
-import AddPick from './add/picks/AddPick';
 import AddGame from './add/game/AddGame';
 import UserPicks from './user/UserPicks';
 
@@ -36,7 +35,6 @@ const Dashboard = () => {
           }
         >
           <Route path='/picks/:id' users={users} render={() => <UserPicks />} />
-          <Route path={`${path}/pick`} render={() => <AddPick />} />
           <Route path={`${path}/game`} render={() => <AddGame />} />
           <Route
             path={`${path}/users`}

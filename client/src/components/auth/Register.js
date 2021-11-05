@@ -3,9 +3,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/auth';
+import { setAlert } from '../../actions/alert';
 import './Auth.scss';
 
-const Register = ({ isAuthenticated, register }) => {
+const Register = ({ isAuthenticated, register, setAlert }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,9 +22,10 @@ const Register = ({ isAuthenticated, register }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      console.log('Passwords do not match');
+      setAlert('Passwords do not match', 'danger');
     } else {
       register({ name, email, password });
+      setAlert(`Welcome ${name}, account has been created`, 'success');
 
       setFormData({ name: '', email: '', password: '', password2: '' });
     }
@@ -75,6 +77,7 @@ const Register = ({ isAuthenticated, register }) => {
 };
 
 Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
@@ -83,4 +86,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { register, setAlert })(Register);
