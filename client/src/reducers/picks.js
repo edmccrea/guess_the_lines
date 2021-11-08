@@ -3,13 +3,8 @@ import {
   GET_BILL_PICKS,
   GET_SAL_PICKS,
   PICKS_ERROR,
+  CLEAR_PICKS,
 } from '../actions/types';
-
-// const initialState = {
-//   loading: true,
-//   picks: null,
-//   error: {},
-// };
 
 const initialState = {
   loading: true,
@@ -42,11 +37,14 @@ function pickReducer(state = initialState, action) {
         loading: false,
       };
     case PICKS_ERROR:
+    case CLEAR_PICKS:
       return {
         ...state,
+        userPicks: [],
+        billPicks: [],
+        salPicks: [],
         error: payload,
         loading: false,
-        picks: null,
       };
     default:
       return state;

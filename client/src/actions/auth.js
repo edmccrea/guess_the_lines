@@ -9,6 +9,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  CLEAR_PICKS,
 } from './types';
 
 export const loadUser = () => async (dispatch) => {
@@ -43,11 +44,16 @@ export const register =
 
     try {
       const res = await axios.post('/users/register', body, config);
+      console.log(name);
 
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data,
       });
+
+      dispatch(
+        setAlert(`Welcome ${name}, your account has been created`, 'success')
+      );
 
       dispatch(loadUser());
     } catch (err) {
@@ -96,4 +102,5 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
+  dispatch({ type: CLEAR_PICKS });
 };

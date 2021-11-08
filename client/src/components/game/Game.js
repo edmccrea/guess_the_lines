@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Game.scss';
@@ -16,6 +16,16 @@ const Game = ({
   picks,
   gameEnd,
 }) => {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [width]);
+
   //Convert team names
   let awayTeam = '';
   let homeTeam = '';
@@ -113,7 +123,10 @@ const Game = ({
           <p>{displayDate(game)}</p>
         </div>
         <div className='game-btns'>
-          <p className='predicted-line game-btns-col'>{awayPoints}</p>
+          <div className='point'>
+            <p className='predicted-line game-btns-col'>{awayPoints}</p>
+            {width < 1100 ? <p>Away</p> : ''}
+          </div>
           <i
             className='fas fa-chevron-left game-btns-col'
             onClick={() => addPoints('away')}
@@ -122,7 +135,10 @@ const Game = ({
             className='fas fa-chevron-right game-btns-col'
             onClick={() => addPoints('home')}
           ></i>
-          <p className='predicted-line game-btns-col'>{homePoints}</p>
+          <div className='point'>
+            <p className='predicted-line game-btns-col'>{homePoints}</p>
+            {width < 1100 ? <p>Home</p> : ''}
+          </div>
         </div>
       </div>
       <p

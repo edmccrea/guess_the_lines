@@ -7,7 +7,7 @@ const About = ({ auth: { user } }) => {
   return (
     <div className='about-container'>
       <div className='about-content'>
-        <h1>About</h1>
+        <h2>About</h2>
         <p>
           Guess the lines is a game that Bill Simmons and Cousin Sal play each
           week during the NFL season each Sunday night on the Bill Simmons

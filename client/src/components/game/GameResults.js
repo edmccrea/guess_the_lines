@@ -150,7 +150,7 @@ const GameResults = ({ games, week, userPicks, picks }) => {
 
   return (
     <div className='results-container'>
-      <h1>How did you do?</h1>
+      <h2>How did you do?</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (

@@ -19,7 +19,7 @@ const Navbar = ({ auth: { user, isAuthenticated }, logout }) => {
 
   const authLinks = (
     <Fragment>
-      <Link to='/'>
+      <Link to='/mypicks'>
         <li>My Picks</li>
       </Link>
       <Link to='/login' className='login-btn' onClick={logout}>

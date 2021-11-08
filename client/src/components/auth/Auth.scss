@@ -67,3 +67,11 @@
     }
   }
 }
+
+@media screen and (max-width: 800px) {
+  .auth-container {
+    form {
+      width: 50%;
+    }
+  }
+}

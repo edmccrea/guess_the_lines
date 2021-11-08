@@ -27,14 +27,14 @@ const Landing = ({
 
   const weekHandlerUp = () => {
     if (week < 18) {
-      setWeek(week + 1);
       setLoading(true);
+      setWeek(week + 1);
     }
   };
   const weekHandlerDown = () => {
     if (week > 1) {
-      setWeek(week - 1);
       setLoading(true);
+      setWeek(week - 1);
     }
   };
 
@@ -45,13 +45,16 @@ const Landing = ({
   const [picksSubmitted, setPicksSubmitted] = useState(false);
 
   useEffect(() => {
-    getBillPicks();
-    getSalPicks();
-
-    // setLoading(true);
-    setShowResults(false);
     if (user) {
       getUsersPicks(user._id);
+    }
+    getBillPicks();
+    getSalPicks();
+  }, [user, getUsersPicks, getBillPicks, getSalPicks]);
+
+  useEffect(() => {
+    setShowResults(false);
+    if (user) {
       test.userPicks.forEach((pick) => {
         if (pick.week === week) {
           setShowResults(true);
@@ -59,14 +62,13 @@ const Landing = ({
           return;
         }
       });
-      setLoading(false);
     }
 
     if (!user) {
       setUserPicks([]);
       setShowResults(false);
-      setLoading(false);
     }
+    setLoading(false);
 
     if (week === 1) {
       setActiveLeft(false);
@@ -78,16 +80,7 @@ const Landing = ({
       setActiveRight(false);
     } else setActiveRight(true);
     setPicksSubmitted(false);
-    // setLoading(false);
-  }, [
-    user,
-    week,
-    picksSubmitted,
-    getBillPicks,
-    getSalPicks,
-    getUsersPicks,
-    test.userPicks,
-  ]);
+  }, [user, week, picksSubmitted, test.userPicks]);
 
   //Set week functions
   const [activeLeft, setActiveLeft] = useState(true);

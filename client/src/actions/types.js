@@ -13,5 +13,6 @@ export const GET_USER_PICKS = 'GET_USER_PICKS';
 export const GET_BILL_PICKS = 'GET_BILL_PICKS';
 export const GET_SAL_PICKS = 'GET_SAL_PICKS';
 export const PICKS_ERROR = 'PICKS_ERROR';
+export const CLEAR_PICKS = 'CLEAR_PICKS';
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
