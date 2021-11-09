@@ -76,35 +76,41 @@ const Game = ({
     if (!user) {
       setAlert('You must be logged on in order to guess', 'primary');
     }
-    if (user) {
-      if (awayPoints <= 0) {
-        setPick({
+
+    if ((user && awayPoints === 0) || (user && homePoints === 0)) {
+      setAlert(
+        "No Pick'ems, please select a point spread for home and away",
+        'primary'
+      );
+    }
+
+    if (awayPoints <= 0) {
+      setPick({
+        team_name: awayTeam,
+        point: awayPoints,
+      });
+
+      setPicks([
+        ...picks,
+        {
           team_name: awayTeam,
           point: awayPoints,
-        });
+        },
+      ]);
+    }
 
-        setPicks([
-          ...picks,
-          {
-            team_name: awayTeam,
-            point: awayPoints,
-          },
-        ]);
-      }
-
-      if (homePoints <= 0) {
-        setPick({
+    if (homePoints <= 0) {
+      setPick({
+        team_name: homeTeam,
+        point: homePoints,
+      });
+      setPicks([
+        ...picks,
+        {
           team_name: homeTeam,
           point: homePoints,
-        });
-        setPicks([
-          ...picks,
-          {
-            team_name: homeTeam,
-            point: homePoints,
-          },
-        ]);
-      }
+        },
+      ]);
 
       setAwayPoints(0);
       setHomePoints(0);

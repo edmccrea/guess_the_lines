@@ -115,28 +115,78 @@ const GameResults = ({ games, week, userPicks, picks }) => {
   };
 
   let winningScore = 0;
-  let winnerIndex = 0;
+  let winner = [];
 
+  //Calculate the winning score of teh game
   const decideWinner = (scores) => {
     scores.forEach((score, i) => {
       if (score > winningScore) {
         winningScore = score;
-        winnerIndex = i;
       }
     });
+
+    let arr = [];
+
+    scores.forEach((score) => {
+      if (score === winningScore) {
+        arr.push(true);
+      } else {
+        arr.push(false);
+      }
+    });
+    winner = arr;
+    return winner;
   };
 
-  const generateWinPhrase = (index) => {
-    const name = ['You', 'Bill', 'Sal'];
-    const winnerPhrases = [
-      `${name[index]} must have been cheating this week, right? Winner.`,
-      `The others didnt stand a chance. ${name[index]} takes this one home.`,
-      `A well deserved win this week for ${name[index]}`,
-    ];
+  //Create and display the win/draw phrase
 
-    const i = Math.floor(Math.random() * (winnerPhrases.length - 1));
+  const generateWinPhrase = (array) => {
+    const names = ['You', 'Bill', 'Sal'];
 
-    return winnerPhrases[i];
+    const tieCheck = (array) => {
+      let arr = [];
+      array.forEach((item) => {
+        if (item) {
+          arr.push(item);
+        }
+      });
+      return arr;
+    };
+
+    if (tieCheck(array).length < 2) {
+      const index = array.indexOf(true);
+      const winnerPhrases = [
+        `${names[index]} must have been cheating this week, right? Winner.`,
+        `The others didnt stand a chance. ${names[index]} takes this one home.`,
+        `A well deserved win this week for ${names[index]}`,
+        `${names[index]} won! Let's see if that luck continues next week.`,
+      ];
+
+      const i = Math.floor(Math.random() * winnerPhrases.length);
+
+      return winnerPhrases[i];
+    }
+
+    if (tieCheck(array).length === 2) {
+      const getAllIndexes = (arr, val) => {
+        var indexes = [],
+          i = -1;
+        while ((i = arr.indexOf(val, i + 1)) !== -1) {
+          indexes.push(i);
+        }
+        return indexes;
+      };
+      const indexes = getAllIndexes(array, true);
+      const tiePhrase = `It really came down to the wire and we couldn't find a winner. ${
+        names[indexes[0]]
+      } and ${names[indexes[1]]} tie this week.`;
+
+      return tiePhrase;
+    }
+
+    if (tieCheck(array).length === 3) {
+      return 'Unbelievable. A three way tie this week. What are the chances?';
+    }
   };
 
   let winPhrase = '';
@@ -144,8 +194,8 @@ const GameResults = ({ games, week, userPicks, picks }) => {
   const names = convertName(games);
   if (!loading) {
     scores = getResults(games);
-    decideWinner(scores);
-    winPhrase = generateWinPhrase(winnerIndex);
+    let test = decideWinner(scores);
+    winPhrase = generateWinPhrase(test);
   }
 
   return (
@@ -204,31 +254,13 @@ const GameResults = ({ games, week, userPicks, picks }) => {
           <div className='score-row results-row'>
             <span className='results-col game-col'>Total</span>
             <span className='results-col'>*</span>
-            <span
-              className={
-                scores[0] === winningScore
-                  ? 'winner results-col'
-                  : 'results-col'
-              }
-            >
+            <span className={winner[0] ? 'winner results-col' : 'results-col'}>
               {scores[0]}
             </span>
-            <span
-              className={
-                scores[1] === winningScore
-                  ? 'winner results-col'
-                  : 'results-col'
-              }
-            >
+            <span className={winner[1] ? 'winner results-col' : 'results-col'}>
               {scores[1]}
             </span>
-            <span
-              className={
-                scores[2] === winningScore
-                  ? 'winner results-col'
-                  : 'results-col'
-              }
-            >
+            <span className={winner[2] ? 'winner results-col' : 'results-col'}>
               {scores[2]}
             </span>
           </div>

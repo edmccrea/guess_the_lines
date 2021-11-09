@@ -62,13 +62,15 @@ const Landing = ({
           return;
         }
       });
+      setLoading(false);
     }
 
     if (!user) {
+      setLoading(false);
       setUserPicks([]);
       setShowResults(false);
     }
-    setLoading(false);
+    // setLoading(false);
 
     if (week === 1) {
       setActiveLeft(false);
