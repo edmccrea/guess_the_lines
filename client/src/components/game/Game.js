@@ -77,13 +77,6 @@ const Game = ({
       setAlert('You must be logged on in order to guess', 'primary');
     }
 
-    if ((user && awayPoints === 0) || (user && homePoints === 0)) {
-      setAlert(
-        "No Pick'ems, please select a point spread for home and away",
-        'primary'
-      );
-    }
-
     if (awayPoints <= 0) {
       setPick({
         team_name: awayTeam,
@@ -97,6 +90,9 @@ const Game = ({
           point: awayPoints,
         },
       ]);
+
+      setAwayPoints(0);
+      setHomePoints(0);
     }
 
     if (homePoints <= 0) {
@@ -150,8 +146,21 @@ const Game = ({
       <p
         className={gameEnd ? 'submit-btn submit-hidden' : 'submit-btn'}
         onClick={() => {
-          pickSubmit();
-          gameSubmit();
+          if ((user && awayPoints !== 0) || (user && homePoints !== 0)) {
+            pickSubmit();
+            gameSubmit();
+          }
+
+          if ((user && awayPoints === 0) || (user && homePoints === 0)) {
+            setAlert(
+              "No Pick'ems, please select a point spread for home and away",
+              'primary'
+            );
+          }
+
+          if (!user) {
+            setAlert('Please login or sign up to play', 'primary');
+          }
         }}
       >
         Guess

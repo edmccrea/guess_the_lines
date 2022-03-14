@@ -17,7 +17,6 @@ const GameResults = ({ games, week, userPicks, picks }) => {
 
   useEffect(() => {
     //Get All Picks
-
     picks.billPicks.forEach((pick) => {
       if (pick.week === week) {
         setBillPicks(convertName(pick.picks));
@@ -48,7 +47,7 @@ const GameResults = ({ games, week, userPicks, picks }) => {
       //Grab hold of the pick to compare each game to from each user
       const comparisons = [userPicks[i], billPicks[i], salPicks[i]];
 
-      //Comvert any picks that selected the wrong team to a positive number
+      //Convert any picks that selected the wrong team to a positive number
       const convertScores = (picks) => {
         const result = [];
         picks.forEach((user) => {
@@ -117,7 +116,7 @@ const GameResults = ({ games, week, userPicks, picks }) => {
   let winningScore = 0;
   let winner = [];
 
-  //Calculate the winning score of teh game
+  //Calculate the winning score of the game
   const decideWinner = (scores) => {
     scores.forEach((score, i) => {
       if (score > winningScore) {
@@ -157,7 +156,7 @@ const GameResults = ({ games, week, userPicks, picks }) => {
       const index = array.indexOf(true);
       const winnerPhrases = [
         `${names[index]} must have been cheating this week, right? Winner.`,
-        `The others didnt stand a chance. ${names[index]} takes this one home.`,
+        `The others didnt stand a chance. ${names[index]} took this one home.`,
         `A well deserved win this week for ${names[index]}`,
         `${names[index]} won! Let's see if that luck continues next week.`,
       ];

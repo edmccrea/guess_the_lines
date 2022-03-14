@@ -29,7 +29,7 @@ module.exports = [
   },
   {
     week: 8,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/10/25/22744377/are-the-chiefs-dead-plus-unicorn-derrick-henry-the-genius-shanahan-and-guess-the-lines',
   },
   {
     week: 9,
@@ -37,38 +37,38 @@ module.exports = [
   },
   {
     week: 10,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/11/8/22769692/buffalos-stumble-rodgerss-heel-turn-mahomes-theories-and-the-odell-sleepstakes',
   },
   {
     week: 11,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/11/15/22782697/here-come-the-pats-plus-the-whats-wrong-game-taylor-vs-jake-and-guess-the-lines-with-cousin-sal',
   },
   {
     week: 12,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/11/22/22795998/jonathan-taylor-day-minnesota-un-chokes-kcs-back-and-more-week-11-weirdness-with-cousin-sal',
   },
   {
     week: 13,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/11/29/22807361/a-bizarre-nfl-mvp-race-and-nba-trade-ideas-with-cousin-sal-and-kevin-oconnor',
   },
   {
     week: 14,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/12/6/22820008/brazen-ravens-evil-vikings-minshew-mania-and-nba-trades-after-dark-with-cousin-sal-and-kevin-oconnor',
   },
   {
     week: 15,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/12/13/22831841/the-sleeper-49ers-rodgers-myths-plus-a-big-succession-finale-with-cousin-sal-and-ryen-russillo',
   },
   {
     week: 16,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/12/20/22846084/fantasy-playoff-chaos-taylors-mvp-run-fake-nba-trades-with-cousin-sal-and-kevin-oconnor',
   },
   {
     week: 17,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2021/12/27/22855194/buffalos-revenge-washingtons-disgrace-the-endless-nfl-season-and-guess-the-lines-with-cousin-sal',
   },
   {
     week: 18,
-    link: '',
+    link: 'https://www.theringer.com/the-bill-simmons-podcast/2022/1/3/22864753/ab-walks-off-2021-losers-and-week-18s-playoff-puzzle-with-cousin-sal',
   },
 ];

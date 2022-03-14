@@ -23,11 +23,28 @@ const Landing = ({
   getSalPicks,
   test,
 }) => {
-  const [loading, setLoading] = useState(true);
+  const testFunction = () => {
+    let match = false;
+    test.userPicks.forEach((pick) => {
+      if (pick.week === week) {
+        setUserPicks(convertName(pick.picks));
+        setShowResults(true);
+        match = true;
+        return;
+      }
+      if (!match) {
+        setShowResults(false);
+      }
+    });
+  };
 
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
+
+  //Change week functions
   const weekHandlerUp = () => {
+    setLoading(true);
     if (week < 18) {
-      setLoading(true);
       setWeek(week + 1);
     }
   };
@@ -38,12 +55,7 @@ const Landing = ({
     }
   };
 
-  //Set user picks & week buttons
-
-  const [showResults, setShowResults] = useState(false);
-  const [userPicks, setUserPicks] = useState([]);
-  const [picksSubmitted, setPicksSubmitted] = useState(false);
-
+  //If user exists, get their picks. Always get Bill and Sal's Picks
   useEffect(() => {
     if (user) {
       getUsersPicks(user._id);
@@ -52,26 +64,38 @@ const Landing = ({
     getSalPicks();
   }, [user, getUsersPicks, getBillPicks, getSalPicks]);
 
+  //Set user picks & week buttons
+  const [showResults, setShowResults] = useState(false);
+  const [userPicks, setUserPicks] = useState([]);
+  const [picksSubmitted, setPicksSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!user) {
+      setShowResults(false);
+      // setLoading(false);
+    }
+  }, [user]);
+
   useEffect(() => {
     setShowResults(false);
     if (user) {
-      test.userPicks.forEach((pick) => {
-        if (pick.week === week) {
-          setShowResults(true);
-          setUserPicks(convertName(pick.picks));
-          return;
-        }
-      });
-      setLoading(false);
+      testFunction();
     }
+    setLoading(false);
+    // eslint-disable-next-line
+  }, [week, test.userPicks, user]);
 
-    if (!user) {
-      setLoading(false);
-      setUserPicks([]);
-      setShowResults(false);
+  useEffect(() => {
+    if (picksSubmitted) {
+      getUsersPicks(user._id);
+      setShowResults(true);
+      setPicksSubmitted(false);
+      setSubmitLoading(false);
+      setShowResults(true);
     }
-    // setLoading(false);
+  }, [picksSubmitted, getUsersPicks, user]);
 
+  useEffect(() => {
     if (week === 1) {
       setActiveLeft(false);
     } else {
@@ -80,9 +104,10 @@ const Landing = ({
 
     if (week === 18) {
       setActiveRight(false);
-    } else setActiveRight(true);
-    setPicksSubmitted(false);
-  }, [user, week, picksSubmitted, test.userPicks]);
+    } else {
+      setActiveRight(true);
+    }
+  }, [week]);
 
   //Set week functions
   const [activeLeft, setActiveLeft] = useState(true);
@@ -116,8 +141,8 @@ const Landing = ({
     },
   };
 
-  const savePicks = () => {
-    axios.post(
+  const savePicks = async () => {
+    await axios.post(
       '/picks',
       {
         week,
@@ -132,9 +157,12 @@ const Landing = ({
     setActiveLeft(true);
     setActiveRight(true);
     setLoading(true);
+    setSubmitLoading(true);
     setPicksSubmitted(true);
     setAlert('Picks submitted', 'primary');
   };
+
+  useEffect(() => {}, [showResults]);
 
   return (
     <div className='landing-container'>
@@ -157,7 +185,7 @@ const Landing = ({
           onClick={weekHandlerUp}
         ></i>
       </div>
-      {loading ? (
+      {loading || submitLoading ? (
         <p className='loading-container'>Loading...</p>
       ) : showResults ? (
         <GameResults

@@ -31,7 +31,7 @@ const Footer = () => {
         </Link>
       </div>
       <p>
-        Listen to guess the lines on Spotify, Apple or wherver you get your
+        Listen to guess the lines on Spotify, Apple or wherever you get your
         podcasts. Bought to you by the Ringer podcast network.
       </p>
     </div>

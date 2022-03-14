@@ -10,7 +10,6 @@ import Landing from './components/game/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import About from './components/About';
-import MyPicks from './components/user/MyPicks';
 import Dashboard from './components/admin/Dashboard';
 import Alert from './components/layout/Alert';
 
@@ -84,7 +83,6 @@ const UserRoutes = ({ loading, games, week, setWeek, game, setGame }) => (
     <Route path='/register' render={() => <Register />} />
     <Route path='/login' render={() => <Login />} />
     <Route path='/about' render={() => <About />} />
-    <Route path='/mypicks' render={() => <MyPicks />} />
 
     {!loading ? (
       <Route
