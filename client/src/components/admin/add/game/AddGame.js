@@ -30,7 +30,7 @@ const AddGame = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('/games', createNewGame(formData), config);
+    await axios.post('/api/games', createNewGame(formData), config);
     setFormData({
       homeTeam: '',
       awayTeam: '',

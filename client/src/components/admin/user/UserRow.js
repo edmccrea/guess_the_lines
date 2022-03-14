@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const UserRow = ({ user, getAllUsers }) => {
   const deleteUser = async () => {
-    axios.delete(`/users/${user._id}`);
+    axios.delete(`/api/users/${user._id}`);
     getAllUsers();
   };
   return (

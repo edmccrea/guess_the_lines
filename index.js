@@ -16,16 +16,16 @@ const path = require('path');
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  app.get(/^((?!(api)).)*$/, (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
 
-app.use('/games', require('./routes/games'));
-app.use('/picks', require('./routes/picks'));
-app.use('/users', require('./routes/users'));
-app.use('/auth', require('./routes/auth'));
-app.use('/week', require('./routes/week'));
+app.use('/api/games', require('./routes/games'));
+app.use('/api/picks', require('./routes/picks'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/week', require('./routes/week'));
 
 const PORT = process.env.PORT || 5000;
 

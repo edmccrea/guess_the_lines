@@ -20,7 +20,7 @@ const Dashboard = () => {
   }, [users.length]);
 
   const getAllUsers = async () => {
-    const res = await axios.get('/users');
+    const res = await axios.get('/api/users');
     setUsers(res.data);
     setLoading(false);
   };

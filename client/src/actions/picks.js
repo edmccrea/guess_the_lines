@@ -14,7 +14,7 @@ export const setUsersPicks = (userId) => async (dispatch) => {
 
 export const getUsersPicks = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`/picks/${userId}`);
+    const res = await axios.get(`/api/picks/${userId}`);
 
     dispatch({
       type: GET_USER_PICKS,
@@ -34,7 +34,7 @@ export const getUsersPicks = (userId) => async (dispatch) => {
 
 export const getBillPicks = () => async (dispatch) => {
   try {
-    const res = await axios.get(`/picks/617bca21949eb6d15fae893c`);
+    const res = await axios.get(`/api/picks/617bca21949eb6d15fae893c`);
 
     dispatch({
       type: GET_BILL_PICKS,
@@ -54,7 +54,7 @@ export const getBillPicks = () => async (dispatch) => {
 
 export const getSalPicks = () => async (dispatch) => {
   try {
-    const res = await axios.get(`/picks/617bcb01949eb6d15fae89aa`);
+    const res = await axios.get(`/api/picks/617bcb01949eb6d15fae89aa`);
 
     dispatch({
       type: GET_SAL_PICKS,

@@ -18,7 +18,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get('/auth');
+    const res = await axios.get('/api/auth');
 
     dispatch({
       type: USER_LOADED,
@@ -43,7 +43,7 @@ export const register =
     const body = JSON.stringify({ name, email, password });
 
     try {
-      const res = await axios.post('/users/register', body, config);
+      const res = await axios.post('/api/users/register', body, config);
       console.log(name);
 
       dispatch({
@@ -79,7 +79,7 @@ export const login = (email, password) => async (dispatch) => {
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post('/auth', body, config);
+    const res = await axios.post('/api/auth', body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,

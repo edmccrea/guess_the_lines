@@ -143,7 +143,7 @@ const Landing = ({
 
   const savePicks = async () => {
     await axios.post(
-      '/picks',
+      '/api/picks',
       {
         week,
         picks,
@@ -161,8 +161,6 @@ const Landing = ({
     setPicksSubmitted(true);
     setAlert('Picks submitted', 'primary');
   };
-
-  useEffect(() => {}, [showResults]);
 
   return (
     <div className='landing-container'>

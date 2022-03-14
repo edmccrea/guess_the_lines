@@ -32,7 +32,7 @@ const GameResults = ({ games, week, userPicks, picks }) => {
     });
 
     const getLine = async () => {
-      const res = await axios.get(`/games/lines/${week}`);
+      const res = await axios.get(`/api/games/lines/${week}`);
       setLine(convertName(res.data));
       setLoading(false);
     };
