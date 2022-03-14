@@ -7,6 +7,13 @@ const app = express();
 
 connectDB();
 
+if (process.env.NODE_ENV === 'production') {
+  // Step 1:
+  app.use(express.static(path.resolve('client/build')));
+  // Step 2:
+  app.use('*', express.static(path.join(__dirname, 'client', 'build')));
+}
+
 app.use(express.json({ extended: false }));
 app.use(cors());
 app.use(bodyParser.json());
@@ -19,13 +26,6 @@ app.use('/auth', require('./routes/auth'));
 app.use('/week', require('./routes/week'));
 
 const path = require('path');
-
-if (process.env.NODE_ENV === 'production') {
-  // Step 1:
-  app.use(express.static(path.resolve('client/build')));
-  // Step 2:
-  app.use('*', express.static(path.join(__dirname, 'client', 'build')));
-}
 
 const PORT = process.env.PORT || 5000;
 
