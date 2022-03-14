@@ -40,7 +40,7 @@ function App() {
 
   useEffect(() => {
     const getWeek = async () => {
-      const res = await axios.get(`http://localhost:5000/week/${week}`);
+      const res = await axios.get(`/week/${week}`);
       setGames(res.data[0].games);
       setLoading(false);
       setGame(0);
