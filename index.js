@@ -1,5 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
@@ -8,6 +9,7 @@ connectDB();
 
 app.use(express.json({ extended: false }));
 app.use(cors());
+app.use(bodyParser.json());
 app.get('/', (req, res) => res.send('API Running'));
 
 app.use('/games', require('./routes/games'));
