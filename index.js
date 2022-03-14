@@ -24,9 +24,7 @@ if (process.env.NODE_ENV === 'production') {
   // Step 1:
   app.use(express.static(path.resolve('client/build')));
   // Step 2:
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
+  app.use('*', express.static(path.join(__dirname, 'client', 'build')));
 }
 
 const PORT = process.env.PORT || 5000;
